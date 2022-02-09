@@ -18,8 +18,9 @@ const playAgain = document.querySelector(".play-again");
 // starting word for testing
 let word = "mangolia";
 let remaining = 8;
-const guessedLetters = [];
+let guessedLetters = [];
 
+//function to assign random word from text file
 const getWord = async function () {
     const res = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
     const data = await res.text();
@@ -127,6 +128,7 @@ const guessesLeft = function (yourGuess) {
 
     if (remaining === 0) {
         message.innerText = `Game over! The word was ${word}`;
+        startOver();
     } else if (remaining === 1) {
         remainingNumber.innerText = `${remaining} guess`;
     } else if (remaining > 1) {
@@ -139,6 +141,28 @@ const wonGame = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
         message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+        startOver();
     }
 };
 
+const startOver = function () {
+    button.classList.add("hide");
+    remainingGuesses.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    playAgain.classList.remove("hide");
+};
+
+playAgain.addEventListener("click", function () {
+    message.classList.remove("win");
+    guessedLetters = [];
+    remaining = 8;
+    remainingNumber.innerText = `${remaining} guesses`;
+    guessedLettersElement.innerHTML = "";
+    message.innerText = "";
+    getWord();
+
+    button.classList.remove("hide");
+    remainingGuesses.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    playAgain.classList.add("hide");
+});
