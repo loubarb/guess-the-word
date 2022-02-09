@@ -14,22 +14,34 @@ const remainingNumber = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 // hidden button that appears to play again
 const playAgain = document.querySelector(".play-again");
-// starting word for testing
-const word = "mangolia";
 
+// starting word for testing
+let word = "mangolia";
+let remaining = 8;
 const guessedLetters = [];
+
+const getWord = async function () {
+    const res = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const data = await res.text();
+    // console.log(data);
+    const wordArray = data.split("\n");
+    // console.log(wordArray);
+    const randomIndex = Math.floor(Math.random() * wordArray.length);
+    word = wordArray[randomIndex].trim();
+    placeholder(word);
+};
 
 // function to update word-in-progress with ● symbol for each letter of the word
 const placeholder = function (word) {
     const placeholderLetters = [];
     for (const letter of word) {
-        console.log(letter);
+        // console.log(letter); // separates each letter in word into an array
         placeholderLetters.push("●");
     }
     wordInProgress.innerText = placeholderLetters.join("");
 };
 
-placeholder(word);
+getWord();
 
 // event listener for button
 button.addEventListener("click", function (e) {
@@ -68,8 +80,9 @@ const makeGuess = function (yourGuess) {
         message.innerText = "You already guessed that letter";
     } else {
         guessedLetters.push(yourGuess);
-        console.log(guessedLetters);
-        showGuessedLetters();
+        // console.log(guessedLetters);
+        showGuessedLetters(guessedLetters);
+        guessesLeft(yourGuess);
         wordUpdateProgress(guessedLetters);
     }
 };
@@ -89,7 +102,7 @@ const wordUpdateProgress = function (guessedLetters) {
     const wordUpper = word.toUpperCase();
     // split("") splits word string into array so letter can appear in guessedLetters array
     const wordArray = wordUpper.split("");
-    console.log(wordArray);
+    // console.log(wordArray);
     const revealWord = [];
     for (const letter of wordArray) {
         if (guessedLetters.includes(letter)) {
@@ -102,10 +115,30 @@ const wordUpdateProgress = function (guessedLetters) {
     wonGame();
 };
 
+// function to count guesses remaining
+const guessesLeft = function (yourGuess) {
+    const upperWord = word.toUpperCase();
+    if (!upperWord.includes(yourGuess)) {
+        message.innerText = `No ${yourGuess}, try again!`;
+        remaining -= 1;
+    } else {
+        message.innerText = "That letter is in the word!";
+    }
+
+    if (remaining === 0) {
+        message.innerText = `Game over! The word was ${word}`;
+    } else if (remaining === 1) {
+        remainingNumber.innerText = `${remaining} guess`;
+    } else if (remaining > 1) {
+        remainingNumber.innerText = `${remaining} guesses`;
+    }
+};
+
 // function to check if player won
 const wonGame = function () {
-    if (wordInProgress.innerText === word.toUpperCase()) {
+    if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
         message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
     }
-}
+};
+
