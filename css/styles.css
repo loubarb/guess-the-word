@@ -12,10 +12,10 @@ body {
   font-size: 20px;
   line-height: 150%;
   background-color: #dff6f6;
-  background-image: url("../img/bg.png");
-  background-size: 800px;
-  background-repeat: repeat;
-  color: #305050;
+  background-image: url("../img/sky-water.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #04202c;
 }
 
 .logo {
@@ -32,6 +32,11 @@ h1 {
   font-weight: normal;
   font-size: 44px;
   text-align: center;
+}
+
+.welcome {
+  font-size: 28px;
+  font-family: 'Audiowide', cursive;
 }
 
 .container {
@@ -62,7 +67,7 @@ h1 {
 
 .word-in-progress {
   letter-spacing: 15px;
-  color: #28bdbd;
+  color: #005175;
   font-size: 30px;
 }
 
@@ -77,6 +82,10 @@ h1 {
 }
 
 .message {
+  text-align: center;
+}
+
+.remaining {
   text-align: center;
 }
 
@@ -114,7 +123,7 @@ input:focus {
   border-radius: 50px;
   margin-top: 1em;
   color: #fff;
-  background: #ff8d5c;
+  background: #005175;
   font-size: 1em;
   align-self: center;
   outline: none;
