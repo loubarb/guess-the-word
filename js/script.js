@@ -37,7 +37,7 @@ const placeholder = function (word) {
     const placeholderLetters = [];
     for (const letter of word) {
         // console.log(letter); // separates each letter in word into an array
-        placeholderLetters.push("🟆");
+        placeholderLetters.push("★");
     }
     wordInProgress.innerText = placeholderLetters.join("");
 };
@@ -109,7 +109,7 @@ const wordUpdateProgress = function (guessedLetters) {
         if (guessedLetters.includes(letter)) {
             revealWord.push(letter.toUpperCase());
         } else {
-            revealWord.push("🟆");
+            revealWord.push("★");
         }
     }
     wordInProgress.innerText = revealWord.join("");
